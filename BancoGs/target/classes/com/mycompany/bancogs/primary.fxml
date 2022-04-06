@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" prefHeight="653.0" prefWidth="1200.0" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bancogs.PrimaryController">
+    <children>
+      <Pane prefHeight="653.0" prefWidth="1200.0">
+         <children>
+            <Accordion layoutX="487.0" layoutY="16.0" prefHeight="582.0" prefWidth="537.0">
+              <panes>
+                <TitledPane animated="false" prefHeight="561.0" prefWidth="609.0" text="DOMICILIAR">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="541.0" prefWidth="707.0">
+                           <children>
+                              <TextField layoutX="21.0" layoutY="54.0" promptText="00000000F" />
+                              <TextField layoutX="193.0" layoutY="54.0" promptText="nombre empresa" />
+                              <ListView layoutX="80.0" layoutY="324.0" prefHeight="172.0" prefWidth="376.0" />
+                              <Label layoutX="79.0" layoutY="24.0" prefHeight="30.0" prefWidth="34.0" text="CIF">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="220.0" layoutY="24.0" prefHeight="30.0" prefWidth="96.0" text="Empresa">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="43.0" layoutY="106.0" prefHeight="30.0" prefWidth="96.0" text="Concepto">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="402.0" layoutY="24.0" prefHeight="30.0" prefWidth="76.0" text="Importe">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="220.0" layoutY="134.0" prefHeight="30.0" prefWidth="122.0" text="Periodicidad">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="147.0" layoutY="284.0" text="RECIBOS DOMICILIADOS">
+                                 <font>
+                                    <Font size="22.0" />
+                                 </font>
+                              </Label>
+                              <Button layoutX="194.0" layoutY="223.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" text="DOMICILIAR">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Button>
+                              <Spinner layoutX="365.0" layoutY="54.0" />
+                              <RadioButton layoutX="365.0" layoutY="171.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="91.0" text="trimestral" />
+                              <RadioButton layoutX="365.0" layoutY="141.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="84.0" text="mensual" />
+                              <RadioButton layoutX="365.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="65.0" text="anual" />
+                              <TextField layoutX="22.0" layoutY="136.0" promptText="00000000F" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </TitledPane>
+                <TitledPane animated="false" text="AUTORIZAR">
+                     <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ListView fx:id="viewAutorizados" layoutX="150.0" layoutY="77.0" prefHeight="200.0" prefWidth="224.0" />
+                              <Label layoutX="196.0" layoutY="390.0" text="AUTORIZADOS">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                              <Button layoutX="150.0" layoutY="302.0" mnemonicParsing="false" onAction="#autorizarPersonas" text="AUTORIZAR" />
+                              <Button layoutX="273.0" layoutY="302.0" mnemonicParsing="false" onAction="#desautorizarPersona" prefHeight="25.0" prefWidth="101.0" text="DESAUTORIZAR" />
+                              <ProgressBar fx:id="progressAutorizados" layoutX="162.0" layoutY="420.0" prefWidth="200.0" progress="0.0" />
+                              <Label alignment="CENTER" layoutX="209.0" layoutY="22.0" prefHeight="17.0" prefWidth="107.0" text="PERSONAS">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                              <Label alignment="CENTER" layoutX="182.0" layoutY="52.0" prefHeight="20.0" prefWidth="161.0" text="(mayuscula autorizados)">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                           </children></AnchorPane>
+                     </content>
+                </TitledPane>
+                  <TitledPane animated="false" text="OPERACION">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Label alignment="CENTER" layoutX="345.0" layoutY="267.0" text="DONACIONES">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Button layoutX="69.0" layoutY="215.0" mnemonicParsing="false" text="INGRESAR" />
+                              <Button layoutX="354.0" layoutY="215.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="101.0" text="RETIRAR" />
+                              <ProgressBar layoutX="305.0" layoutY="298.0" prefWidth="200.0" progress="0.0" />
+                              <Spinner layoutX="29.0" layoutY="90.0" />
+                              <ChoiceBox layoutX="29.0" layoutY="142.0" prefWidth="150.0" />
+                              <Label alignment="CENTER" layoutX="61.0" layoutY="347.0" prefHeight="138.0" prefWidth="394.0" text="RESULTADO">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <Label alignment="CENTER" layoutX="66.0" layoutY="60.0" text="INGRESAR">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <Spinner layoutX="330.0" layoutY="92.0" />
+                              <ChoiceBox layoutX="330.0" layoutY="144.0" prefWidth="150.0" />
+                              <Label alignment="CENTER" layoutX="367.0" layoutY="62.0" text="RETIRAR">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <CheckBox layoutX="331.0" layoutY="187.0" mnemonicParsing="false" text="Donar 5%" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </TitledPane>
+              </panes>
+            </Accordion>
+            <Label alignment="CENTER" layoutX="108.0" layoutY="176.0" prefHeight="30.0" prefWidth="240.0" text="CUENTA BANCARIA">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="24.0" layoutY="269.0" prefHeight="30.0" prefWidth="84.0" text="NCuenta">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="24.0" layoutY="310.0" prefHeight="30.0" prefWidth="84.0" text="Titular">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="24.0" layoutY="351.0" prefHeight="30.0" prefWidth="84.0" text="Saldo">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="ncuentaField" layoutX="124.0" layoutY="269.0" prefHeight="30.0" prefWidth="200.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="titularField" layoutX="124.0" layoutY="310.0" prefHeight="30.0" prefWidth="261.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="saldoField" layoutX="124.0" layoutY="351.0" prefHeight="30.0" prefWidth="200.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+    </children>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+</VBox>
