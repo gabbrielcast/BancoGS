@@ -23,6 +23,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 
 public class PrimaryController implements Initializable {
@@ -31,6 +32,7 @@ public class PrimaryController implements Initializable {
     private Alert alerta;
     private ObservableList<Persona> listaPersonas;
     private ObservableList<MotivoIngreso> listaMotivoIngreso;
+    private ObservableList<Double> opcionesDinero;
     CuentaBancaria cuenta1;
     private static int contador = 0;
     private static double progreso = 0;
@@ -52,15 +54,15 @@ public class PrimaryController implements Initializable {
     @FXML
     private ProgressBar progressDonaciones;
     @FXML
-    private Spinner<?> cantidadIngreso;
+    private Spinner<Double> cantidadIngreso;
     @FXML
     private ChoiceBox<String> ChoiceMotivoIngreso;
     @FXML
-    private Spinner<?> cantidadRetirada;
+    private Spinner<Double> cantidadRetirada;
     @FXML
     private CheckBox checkBoxDonacion;
     @FXML
-    private ChoiceBox<?> MotivoRetirada;
+    private ChoiceBox<String> ChoiceMotivoRetirada;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -83,36 +85,20 @@ public class PrimaryController implements Initializable {
 
     }
 
-    private boolean showAlerta(AlertType tipo, Persona p) {
+    private boolean showAlerta(AlertType tipo, String cabecera, String contenido) {
+        alerta = new Alert(tipo);
+        alerta.setTitle(tipo.name());
+        alerta.setHeaderText(cabecera);
+        alerta.setContentText(contenido);
 
-        if (tipo == AlertType.CONFIRMATION) {
-            alerta = new Alert(AlertType.CONFIRMATION);
-            alerta.setTitle("CONFIRMACION");
-            alerta.setHeaderText("ELIIMINACION DE AUTORIZADOS");
-            alerta.setContentText("Estas seguro de que quieres eliminar a: " + p.getNombre() + "?");
-
-            Optional<ButtonType> result = alerta.showAndWait();
-            if (result.get() == ButtonType.OK) {
-                return true;
-            } else {
-                return false;
-            }
+        Optional<ButtonType> result = alerta.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            return true;
+        } else {
+            return false;
         }
-        if (tipo == AlertType.INFORMATION) {
-            alerta = new Alert(AlertType.CONFIRMATION);
-            alerta.setTitle("INFORMACION");
-            alerta.setHeaderText("RESULTADO INGRESO");
-            alerta.setContentText("HAS INTRODUCIDO UNA CANTIDAD NEGATIVA Y NO SE HA PODIDO REALIZAR EL INGRESO");
 
-            Optional<ButtonType> result = alerta.showAndWait();
-            if (result.get() == ButtonType.OK) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        return false;
-
+       
     }
 
     private Persona getPersonaSeleccionda() {
@@ -169,12 +155,19 @@ public class PrimaryController implements Initializable {
         //domiciliacion recibos en cuentas
         cuenta1.domiciliar("1000000A", "EMIVASA", 45.00, "Agua", "MENSUAL");
 
-        //
-        listaMotivoIngreso=FXCollections.observableArrayList(MotivoIngreso.NOMINA,MotivoIngreso.DONACION,MotivoIngreso.REGALO,MotivoIngreso.OTROS);
+        //CHOICEBOX
+        listaMotivoIngreso = FXCollections.observableArrayList(MotivoIngreso.NOMINA, MotivoIngreso.DONACION, MotivoIngreso.REGALO, MotivoIngreso.OTROS);
         for (int i = 0; i < 4; i++) {
             ChoiceMotivoIngreso.getItems().add(listaMotivoIngreso.get(i).name());
         }
         ChoiceMotivoIngreso.setValue(MotivoIngreso.NOMINA.name());
+
+        //Spinner
+        opcionesDinero = FXCollections.observableArrayList(1.0, 5.0, 10.0, 20.0, 50.0, 100.0, 200.0, 500.0, 1000.0, 5000.0);
+        SpinnerValueFactory.ListSpinnerValueFactory<Double> ing = new SpinnerValueFactory.ListSpinnerValueFactory(opcionesDinero);
+        SpinnerValueFactory.ListSpinnerValueFactory<Double> ret = new SpinnerValueFactory.ListSpinnerValueFactory(opcionesDinero);
+        cantidadIngreso.setValueFactory(ing);
+        cantidadRetirada.setValueFactory(ret);
 
     }
 
@@ -211,7 +204,8 @@ public class PrimaryController implements Initializable {
         //OBTENER LA PERSONA SELECCIONADA
         Persona personaSeleccionada = getPersonaSeleccionda();
         if (progressAutorizados.getProgress() >= 0) {
-            if (cuenta1.existeAutorizado(personaSeleccionada) && showAlerta(AlertType.CONFIRMATION, personaSeleccionada)) {
+            if (cuenta1.existeAutorizado(personaSeleccionada) && showAlerta(AlertType.CONFIRMATION, "DESAUTORIZAAR",
+                    "Estas seguro de eliminar a " + personaSeleccionada.getNombre() + "?")) {
 
                 cuenta1.quitarAutorizado(personaSeleccionada);
                 personas.remove(personaSeleccionada);
@@ -235,17 +229,19 @@ public class PrimaryController implements Initializable {
 
         double cantidad = Double.parseDouble(cantidadIngreso.getValue().toString());
         int resultado = cuenta1.ingresar(cantidad);
+        
 
         if (resultado == 0) {
 
         }
         if (resultado > 0) {
-
+            showAlerta(AlertType.WARNING, "HACIENDA", "AVISO: NOTIFICAR A HACIENDA por ingreso: " + cantidad);
         }
         if (resultado < 0) {
-            showAlerta(AlertType.INFORMATION, cuenta1.getTitular());
+            showAlerta(AlertType.INFORMATION, "SALDO NEGATIVO", "DEBES INTRODUCIR UN SALDO POSITIVO");
 
         }
+        mostrarDatosCuenta();
 
     }
 
