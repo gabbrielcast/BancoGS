@@ -54,8 +54,11 @@ public class CuentaBancaria {
     }
     
     public Boolean existeAutorizado(Persona p){
-        if (autorizados.contains(p)) {
-            return true;
+        
+        for(Persona per:autorizados){
+            if (per.igual(p)) {
+                return true;
+            }
         }
         return false;
     }
@@ -65,6 +68,7 @@ public class CuentaBancaria {
             autorizados.remove(p);
             return true;
         }
+        
         return false;
     }
 
@@ -86,7 +90,7 @@ public class CuentaBancaria {
 
     //Método ingresar
     public int ingresar(double cantidad) {
-
+        
         final int CANTIDAD_CORRECTA = 0;
         final int CANTIDAD_MAX_SUPERADA = 1;
         final int CANTIDAD_INCORRECTA = -1;
