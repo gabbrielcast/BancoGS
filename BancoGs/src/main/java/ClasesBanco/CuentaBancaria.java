@@ -227,4 +227,14 @@ public class CuentaBancaria {
 
         return listaRecibosEncontrados;
     }
+    
+    
+    public Set<Recibo> getAllRecibos(){
+        Set<Recibo> allRecibos= new HashSet<>();
+        
+        for(Recibo bill: listaRecibos){
+            allRecibos.add(bill);
+        }
+        return allRecibos;
+    }
 }

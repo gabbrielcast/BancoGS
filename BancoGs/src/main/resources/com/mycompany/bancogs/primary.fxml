@@ -12,50 +12,60 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="660.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bancogs.PrimaryController">
+<Pane prefHeight="660.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bancogs.PrimaryController">
    <children>
-      <Pane layoutX="14.0" prefHeight="650.0" prefWidth="275.0">
+      <Pane prefHeight="660.0" prefWidth="289.0" style="-fx-background-color: #1472a8;">
          <children>
-            <Label alignment="CENTER" layoutX="18.0" layoutY="62.0" prefHeight="30.0" prefWidth="240.0" text="CUENTA BANCARIA">
+            <Label alignment="CENTER" layoutY="37.0" prefHeight="81.0" prefWidth="289.0" style="-fx-background-color: #232626;" text="CUENTA BANCARIA" textFill="WHITE">
                <font>
-                  <Font size="20.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label layoutX="38.0" layoutY="185.0" prefHeight="30.0" prefWidth="84.0" text="NCuenta">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label layoutX="38.0" layoutY="256.0" prefHeight="30.0" prefWidth="84.0" text="Titular">
+            <Label alignment="CENTER" layoutY="230.0" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #232626;" text="NCuenta" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="38.0" layoutY="325.0" prefHeight="30.0" prefWidth="84.0" text="Saldo">
+            <Label alignment="CENTER" layoutY="290.0" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #232626;" text="Titular" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="ncuentaField" layoutX="38.0" layoutY="215.0" prefHeight="30.0" prefWidth="200.0" />
-            <Label fx:id="titularField" layoutX="38.0" layoutY="286.0" prefHeight="30.0" prefWidth="200.0" />
-            <Label fx:id="saldoField" layoutX="38.0" layoutY="369.0" prefHeight="30.0" prefWidth="200.0" />
+            <Label alignment="CENTER" layoutY="350.0" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #232626;" text="Saldo" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="ncuentaField" alignment="CENTER" layoutY="260.0" prefHeight="30.0" prefWidth="289.0" style="-fx-background-color: #c9c9c9;" textFill="#ba610b">
+               <font>
+                  <Font name="Arial Black" size="20.0" />
+               </font></Label>
+            <Label fx:id="titularField" alignment="CENTER" layoutY="320.0" prefHeight="30.0" prefWidth="289.0" style="-fx-background-color: #c9c9c9;" textFill="#ba610b">
+               <font>
+                  <Font name="Arial Black" size="20.0" />
+               </font></Label>
+            <Label fx:id="saldoField" alignment="CENTER" layoutY="380.0" prefHeight="30.0" prefWidth="289.0" style="-fx-background-color: #c9c9c9;" textFill="#ba610b">
+               <font>
+                  <Font name="Arial Black" size="20.0" />
+               </font></Label>
          </children>
       </Pane>
-      <Pane layoutX="289.0" layoutY="5.0" prefHeight="650.0" prefWidth="580.0">
+      <Pane layoutX="289.0" layoutY="-5.0" prefHeight="668.0" prefWidth="582.0" style="-fx-background-color: #31634d;">
          <children>
-            <Accordion layoutX="14.0" layoutY="39.0" prefHeight="582.0" prefWidth="537.0">
+            <Accordion layoutX="23.0" layoutY="43.0" prefHeight="582.0" prefWidth="537.0">
               <panes>
                 <TitledPane animated="false" prefHeight="561.0" prefWidth="609.0" text="DOMICILIAR">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="541.0" prefWidth="707.0">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="541.0" prefWidth="707.0" style="-fx-background-color: #c9c9c9;">
                            <children>
-                              <TextField layoutX="21.0" layoutY="54.0" promptText="00000000F" />
-                              <TextField layoutX="193.0" layoutY="54.0" promptText="nombre empresa" />
-                              <ListView layoutX="80.0" layoutY="324.0" prefHeight="172.0" prefWidth="376.0" />
+                              <TextField fx:id="cif" layoutX="21.0" layoutY="54.0" promptText="00000000F" />
+                              <TextField fx:id="nEmpresa" layoutX="193.0" layoutY="54.0" promptText="nombre empresa" />
+                              <ListView fx:id="historialRecibos" layoutX="80.0" layoutY="324.0" prefHeight="172.0" prefWidth="376.0" />
                               <Label layoutX="79.0" layoutY="24.0" prefHeight="30.0" prefWidth="34.0" text="CIF">
                                  <font>
                                     <Font size="20.0" />
@@ -86,31 +96,37 @@
                                     <Font size="22.0" />
                                  </font>
                               </Label>
-                              <Button layoutX="194.0" layoutY="223.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" text="DOMICILIAR">
+                              <Button layoutX="194.0" layoutY="223.0" mnemonicParsing="false" onAction="#insertarRescibo" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #232626; -fx-border-radius: 50px; -fx-background-radius: 50px;" text="DOMICILIAR" textFill="WHITE">
                                  <font>
-                                    <Font size="14.0" />
+                                    <Font name="Berlin Sans FB" size="17.0" />
                                  </font>
                               </Button>
-                              <Spinner layoutX="365.0" layoutY="54.0" />
-                              <RadioButton layoutX="365.0" layoutY="171.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="91.0" text="trimestral" />
-                              <RadioButton layoutX="365.0" layoutY="141.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="84.0" text="mensual" />
-                              <RadioButton layoutX="365.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="65.0" text="anual" />
-                              <TextField layoutX="22.0" layoutY="136.0" promptText="00000000F" />
+                              <Spinner fx:id="importe" layoutX="365.0" layoutY="54.0" />
+                              <RadioButton fx:id="pTrimestral" layoutX="365.0" layoutY="171.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="91.0" text="trimestral">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="periodicidad" />
+                                 </toggleGroup></RadioButton>
+                              <RadioButton fx:id="pMensual" layoutX="365.0" layoutY="141.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="84.0" text="mensual" toggleGroup="$periodicidad" />
+                              <RadioButton fx:id="pAnual" layoutX="365.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="65.0" text="anual" toggleGroup="$periodicidad" />
+                              <TextField fx:id="concepto" layoutX="22.0" layoutY="136.0" promptText="00000000F" />
                            </children>
                         </AnchorPane>
                   </content>
                 </TitledPane>
                 <TitledPane animated="false" text="AUTORIZAR">
                      <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #c9c9c9;">
                            <children>
                               <ListView fx:id="viewAutorizados" layoutX="142.0" layoutY="174.0" prefHeight="200.0" prefWidth="224.0" />
-                              <Button layoutX="366.0" layoutY="38.0" mnemonicParsing="false" onAction="#autorizarPersonas" prefHeight="62.0" prefWidth="80.0" text="AUTORIZAR" />
-                              <Button layoutX="193.0" layoutY="385.0" mnemonicParsing="false" onAction="#desautorizarPersona" prefHeight="30.0" prefWidth="124.0" text="DESAUTORIZAR">
+                              <Button layoutX="366.0" layoutY="38.0" mnemonicParsing="false" onAction="#autorizarPersonas" prefHeight="62.0" prefWidth="100.0" style="-fx-background-color: #232626; -fx-border-radius: 50px; -fx-background-radius: 20px;" text="AUTORIZAR" textFill="WHITE">
                                  <font>
-                                    <Font size="14.0" />
+                                    <Font name="Berlin Sans FB" size="15.0" />
                                  </font></Button>
-                              <ProgressBar fx:id="progressAutorizados" layoutX="155.0" layoutY="442.0" prefWidth="200.0" progress="0.0" />
+                              <Button layoutX="193.0" layoutY="383.0" mnemonicParsing="false" onAction="#desautorizarPersona" prefHeight="30.0" prefWidth="124.0" style="-fx-background-color: #232626; -fx-border-radius: 50px; -fx-background-radius: 50px;" text="DESAUTORIZAR" textFill="WHITE">
+                                 <font>
+                                    <Font name="Berlin Sans FB" size="15.0" />
+                                 </font></Button>
+                              <ProgressBar fx:id="progressAutorizados" layoutX="155.0" layoutY="442.0" prefWidth="200.0" progress="0.0" style="-fx-border-color: #000000;" />
                               <Label alignment="CENTER" layoutX="179.0" layoutY="144.0" prefHeight="30.0" prefWidth="151.0" text="AUTORIZADAS">
                                  <font>
                                     <Font size="16.0" />
@@ -134,12 +150,18 @@
                 </TitledPane>
                   <TitledPane animated="false" text="OPERACION">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #c9c9c9;">
                            <children>
                               <Label alignment="CENTER" layoutX="371.0" layoutY="198.0" text="DONACIONES" />
-                              <Button layoutX="71.0" layoutY="159.0" mnemonicParsing="false" onAction="#ingresarCantidad" text="INGRESAR" />
-                              <Button layoutX="359.0" layoutY="159.0" mnemonicParsing="false" onAction="#retirarCantidad" prefHeight="25.0" prefWidth="101.0" text="RETIRAR" />
-                              <ProgressBar fx:id="progressDonaciones" layoutX="335.0" layoutY="224.0" prefHeight="18.0" prefWidth="149.0" progress="0.0" />
+                              <Button layoutX="53.0" layoutY="159.0" mnemonicParsing="false" onAction="#ingresarCantidad" prefHeight="27.0" prefWidth="100.0" style="-fx-background-color: #232626; -fx-border-radius: 50px; -fx-background-radius: 50px;" text="INGRESAR" textFill="WHITE">
+                                 <font>
+                                    <Font name="Berlin Sans FB" size="15.0" />
+                                 </font></Button>
+                              <Button layoutX="359.0" layoutY="159.0" mnemonicParsing="false" onAction="#retirarCantidad" prefHeight="25.0" prefWidth="101.0" style="-fx-background-color: #232626; -fx-border-radius: 50px; -fx-background-radius: 50px;" text="RETIRAR" textFill="WHITE">
+                                 <font>
+                                    <Font name="Berlin Sans FB" size="15.0" />
+                                 </font></Button>
+                              <ProgressBar fx:id="progressDonaciones" layoutX="335.0" layoutY="224.0" prefHeight="18.0" prefWidth="149.0" progress="0.0" style="-fx-border-color: #000000;" />
                               <Spinner fx:id="cantidadIngreso" layoutX="31.0" layoutY="57.0" />
                               <ChoiceBox fx:id="ChoiceMotivoIngreso" layoutX="31.0" layoutY="109.0" prefWidth="150.0" />
                               <Label alignment="CENTER" layoutX="68.0" layoutY="27.0" text="INGRESAR">
@@ -154,7 +176,7 @@
                                  </font>
                               </Label>
                               <CheckBox fx:id="checkBoxDonacion" layoutX="335.0" layoutY="106.0" mnemonicParsing="false" text="Donar 5%" />
-                              <TextArea layoutX="116.0" layoutY="314.0" prefHeight="165.0" prefWidth="303.0" />
+                              <TextArea fx:id="historialOperaciones" layoutX="116.0" layoutY="314.0" prefHeight="165.0" prefWidth="303.0" />
                               <Label alignment="CENTER" layoutX="215.0" layoutY="279.0" prefHeight="27.0" prefWidth="106.0" text="HISTORIAL">
                                  <font>
                                     <Font size="18.0" />
