@@ -71,7 +71,7 @@ public class Recibo {
     
     @Override
     public String toString() {
-        return "<<RECIBO>> " + cif.toUpperCase() + " - " + nombreEmpresa.toUpperCase() + " - " + getImporteFormateado() + " - " + concepto.toUpperCase() + " - " + periodicidad.toUpperCase();
+        return cif.toUpperCase() + " - " + nombreEmpresa.toUpperCase() + " - " + getImporteFormateado() + " - " + concepto.toUpperCase() + " - " + periodicidad.toUpperCase();
     }
     
     

@@ -8,6 +8,36 @@ and open the template in the editor.
     Author     : Cambralla
 */
 
+#buttonAcceder{
+     -fx-background-color: #232626;
+     -fx-border-radius:50px;
+     -fx-background-radius:50px;
+     
+}
+
 #buttonAcceder:hover{
     -fx-background-color:#107d17;
+    -fx-cursor:hand;
+}
+
+.button{
+    -fx-background-color: #232626;
+    -fx-border-radius:50px;
+    -fx-background-radius:50px;
+}
+
+#buttonAutorizar{
+    -fx-background-color: #232626;
+    -fx-border-radius:20px;
+    -fx-background-radius:20px;
+}
+
+.button:hover{
+    -fx-background-color:#107d17;
+    -fx-cursor:hand;
+}
+
+#buttonAutorizar:hover{
+    -fx-background-color:#107d17;
+    -fx-cursor:hand;
 }

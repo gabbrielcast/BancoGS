@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="660.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bancogs.PrimaryController">
+<Pane prefHeight="660.0" prefWidth="872.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bancogs.PrimaryController">
    <children>
       <Pane prefHeight="660.0" prefWidth="289.0" style="-fx-background-color: #1472a8;">
          <children>
@@ -41,27 +41,27 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="ncuentaField" alignment="CENTER" layoutY="260.0" prefHeight="30.0" prefWidth="289.0" style="-fx-background-color: #c9c9c9;" textFill="#ba610b">
+            <Label fx:id="ncuentaField" alignment="CENTER" layoutY="260.0" prefHeight="30.0" prefWidth="289.0" style="-fx-background-color: #c9c9c9;" textFill="#cd6f17">
                <font>
-                  <Font name="Arial Black" size="20.0" />
+                  <Font name="Times New Roman" size="20.0" />
                </font></Label>
-            <Label fx:id="titularField" alignment="CENTER" layoutY="320.0" prefHeight="30.0" prefWidth="289.0" style="-fx-background-color: #c9c9c9;" textFill="#ba610b">
+            <Label fx:id="titularField" alignment="CENTER" layoutY="320.0" prefHeight="30.0" prefWidth="289.0" style="-fx-background-color: #c9c9c9;" textFill="#cd6f17">
                <font>
-                  <Font name="Arial Black" size="20.0" />
+                  <Font name="Times New Roman" size="18.0" />
                </font></Label>
-            <Label fx:id="saldoField" alignment="CENTER" layoutY="380.0" prefHeight="30.0" prefWidth="289.0" style="-fx-background-color: #c9c9c9;" textFill="#ba610b">
+            <Label fx:id="saldoField" alignment="CENTER" layoutY="380.0" prefHeight="30.0" prefWidth="289.0" style="-fx-background-color: #c9c9c9;" textFill="#cd6f17">
                <font>
-                  <Font name="Arial Black" size="20.0" />
+                  <Font name="Times New Roman" size="20.0" />
                </font></Label>
          </children>
       </Pane>
-      <Pane layoutX="289.0" layoutY="-5.0" prefHeight="668.0" prefWidth="582.0" style="-fx-background-color: #31634d;">
+      <Pane layoutX="289.0" prefHeight="660.0" prefWidth="584.0" style="-fx-background-color: #31634d;">
          <children>
             <Accordion layoutX="23.0" layoutY="43.0" prefHeight="582.0" prefWidth="537.0">
               <panes>
-                <TitledPane animated="false" prefHeight="561.0" prefWidth="609.0" text="DOMICILIAR">
+                <TitledPane animated="false" prefHeight="561.0" prefWidth="609.0" stylesheets="@styles.css" text="DOMICILIAR">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="541.0" prefWidth="707.0" style="-fx-background-color: #c9c9c9;">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="541.0" prefWidth="707.0" style="-fx-background-color: #c9c9c9;" stylesheets="@styles.css">
                            <children>
                               <TextField fx:id="cif" layoutX="21.0" layoutY="54.0" promptText="00000000F" />
                               <TextField fx:id="nEmpresa" layoutX="193.0" layoutY="54.0" promptText="nombre empresa" />
@@ -96,7 +96,7 @@
                                     <Font size="22.0" />
                                  </font>
                               </Label>
-                              <Button layoutX="194.0" layoutY="223.0" mnemonicParsing="false" onAction="#insertarRescibo" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #232626; -fx-border-radius: 50px; -fx-background-radius: 50px;" text="DOMICILIAR" textFill="WHITE">
+                              <Button layoutX="194.0" layoutY="223.0" mnemonicParsing="false" onAction="#insertarRescibo" prefHeight="25.0" prefWidth="148.0" stylesheets="@styles.css" text="DOMICILIAR" textFill="WHITE">
                                  <font>
                                     <Font name="Berlin Sans FB" size="17.0" />
                                  </font>
@@ -118,11 +118,11 @@
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #c9c9c9;">
                            <children>
                               <ListView fx:id="viewAutorizados" layoutX="142.0" layoutY="174.0" prefHeight="200.0" prefWidth="224.0" />
-                              <Button layoutX="366.0" layoutY="38.0" mnemonicParsing="false" onAction="#autorizarPersonas" prefHeight="62.0" prefWidth="100.0" style="-fx-background-color: #232626; -fx-border-radius: 50px; -fx-background-radius: 20px;" text="AUTORIZAR" textFill="WHITE">
+                              <Button id="buttonAutorizar" layoutX="366.0" layoutY="38.0" mnemonicParsing="false" onAction="#autorizarPersonas" prefHeight="62.0" prefWidth="100.0" stylesheets="@styles.css" text="AUTORIZAR" textFill="WHITE">
                                  <font>
                                     <Font name="Berlin Sans FB" size="15.0" />
                                  </font></Button>
-                              <Button layoutX="193.0" layoutY="383.0" mnemonicParsing="false" onAction="#desautorizarPersona" prefHeight="30.0" prefWidth="124.0" style="-fx-background-color: #232626; -fx-border-radius: 50px; -fx-background-radius: 50px;" text="DESAUTORIZAR" textFill="WHITE">
+                              <Button layoutX="188.0" layoutY="382.0" mnemonicParsing="false" onAction="#desautorizarPersona" prefHeight="31.0" prefWidth="132.0" stylesheets="@styles.css" text="DESAUTORIZAR" textFill="WHITE">
                                  <font>
                                     <Font name="Berlin Sans FB" size="15.0" />
                                  </font></Button>
@@ -152,12 +152,12 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #c9c9c9;">
                            <children>
-                              <Label alignment="CENTER" layoutX="371.0" layoutY="198.0" text="DONACIONES" />
-                              <Button layoutX="53.0" layoutY="159.0" mnemonicParsing="false" onAction="#ingresarCantidad" prefHeight="27.0" prefWidth="100.0" style="-fx-background-color: #232626; -fx-border-radius: 50px; -fx-background-radius: 50px;" text="INGRESAR" textFill="WHITE">
+                              <Label alignment="CENTER" layoutX="371.0" layoutY="207.0" text="DONACIONES" />
+                              <Button layoutX="53.0" layoutY="159.0" mnemonicParsing="false" onAction="#ingresarCantidad" prefHeight="27.0" prefWidth="100.0" stylesheets="@styles.css" text="INGRESAR" textFill="WHITE">
                                  <font>
                                     <Font name="Berlin Sans FB" size="15.0" />
                                  </font></Button>
-                              <Button layoutX="359.0" layoutY="159.0" mnemonicParsing="false" onAction="#retirarCantidad" prefHeight="25.0" prefWidth="101.0" style="-fx-background-color: #232626; -fx-border-radius: 50px; -fx-background-radius: 50px;" text="RETIRAR" textFill="WHITE">
+                              <Button layoutX="359.0" layoutY="159.0" mnemonicParsing="false" onAction="#retirarCantidad" prefHeight="25.0" prefWidth="101.0" stylesheets="@styles.css" text="RETIRAR" textFill="WHITE">
                                  <font>
                                     <Font name="Berlin Sans FB" size="15.0" />
                                  </font></Button>

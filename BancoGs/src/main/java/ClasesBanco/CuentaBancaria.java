@@ -160,37 +160,37 @@ public class CuentaBancaria {
                 + RESET + concepto + PURPLE + "\nPeriodicidad: " + RESET + periodicidad;
 
         boolean reciboOK = true;
-        String infoRecibo = RED + "No se ha podido domiciliar el recibo" + RESET;
+        String infoRecibo ="No se ha podido domiciliar el recibo";
 
         if (cif.isEmpty()) {
-            infoRecibo += "\nEl" + RED + " CIF " + RESET + "no se ha introducido correctamente\nVuelve a intentarlo";
+            infoRecibo += "\nEl" + " CIF " + "no se ha introducido correctamente\nVuelve a intentarlo";
             reciboOK = false;
         }
 
         if (nombreEmpresa.isEmpty()) {
-            infoRecibo += "\nEl" + RED + " NOMBRE DE LA EMPRESA " + RESET + "no se ha introducido correctamente\nVuelve a intentarlo";
+            infoRecibo += "\nEl" + " NOMBRE DE LA EMPRESA " + "no se ha introducido correctamente\nVuelve a intentarlo";
             reciboOK = false;
         }
 
         if (importe <= 0) {
-            infoRecibo += "\nEl" + RED + " IMPORTE " + RESET + "no se ha introducido correctamente\nVuelve a intentarlo";
+            infoRecibo += "\nEl" + " IMPORTE " + "no se ha introducido correctamente\nVuelve a intentarlo";
             reciboOK = false;
         }
 
         if (concepto.isEmpty()) {
-            infoRecibo += "\nEl" + RED + " CONCEPTO " + RESET + "no se ha introducido correctamente\nVuelve a intentarlo";
+            infoRecibo += "\nEl"  + " CONCEPTO " + "no se ha introducido correctamente\nVuelve a intentarlo";
             reciboOK = false;
         }
 
         if (!(periodicidad.equalsIgnoreCase(MENSUAL) || periodicidad.equalsIgnoreCase(TRIMESTRAL) || periodicidad.equalsIgnoreCase(ANUAL))) {
-            infoRecibo += "\nLa" + RED + " PERIODICIDAD " + RESET + "no se ha introducido correctamente\nVuelve a intentarlo";
+            infoRecibo += "\nLa" + " PERIODICIDAD " + "no se ha introducido correctamente\nVuelve a intentarlo";
             reciboOK = false;
         }
 
         if (reciboOK) {
             Recibo reciboDomiciliadoOK = new Recibo(cif, nombreEmpresa, importe, concepto, periodicidad);
             listaRecibos.add(reciboDomiciliadoOK);
-            infoRecibo = GREEN + "\nEl recibo se ha creado correctamente" + RESET + "\n" + reciboDomiciliado;
+            infoRecibo = "\nEl recibo se ha creado correctamente" +  "\n" + reciboDomiciliado;
         }
 
         return infoRecibo;

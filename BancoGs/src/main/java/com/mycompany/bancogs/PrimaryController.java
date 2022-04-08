@@ -46,6 +46,8 @@ public class PrimaryController implements Initializable {
     CuentaBancaria cuenta;
     private static int contador = 0;
     private static double progreso = 0;
+    private static double donacionProg = 0;
+    private static int totalDonacion = 0;
     private LocalTime hora;
 
     @FXML
@@ -204,6 +206,9 @@ public class PrimaryController implements Initializable {
         cantidadIngreso.setValueFactory(ing);
         cantidadRetirada.setValueFactory(ret);
         importe.setValueFactory(importeRecibo);
+        
+        //selected
+        periodicidad.selectToggle(pAnual);
 
     }
 
@@ -239,6 +244,12 @@ public class PrimaryController implements Initializable {
         return periodicidad;
     }
 
+    private double calcularDonacion(double cantidad) {
+        final int PORCENTAJEDONACION = 5;
+        double resultado = cantidad * PORCENTAJEDONACION / 100;
+        return resultado;
+    }
+
     @FXML
     private void autorizarPersonas() {
         String nombre = nPersonaAutorizar.getText();
@@ -253,9 +264,9 @@ public class PrimaryController implements Initializable {
 
                 p.setNombre(p.getNombre().toUpperCase());
                 cuenta.autorizar(p);
-                personas.add(p);
+                listaPersonas.add(p);
 
-                actualizarAutorizados();
+                
 
                 progreso += 0.17;
                 progressAutorizados.setProgress(progreso);
@@ -276,8 +287,8 @@ public class PrimaryController implements Initializable {
                     "Estas seguro de eliminar a " + personaSeleccionada.getNombre() + "?")) {
 
                 cuenta.quitarAutorizado(personaSeleccionada);
-                personas.remove(personaSeleccionada);
-                actualizarAutorizados();
+                listaPersonas.remove(personaSeleccionada);
+                
 
                 progreso -= 0.17;
 
@@ -306,10 +317,6 @@ public class PrimaryController implements Initializable {
             showAlerta(AlertType.WARNING, "HACIENDA", "AVISO: NOTIFICAR A HACIENDA por ingreso: " + cantidad);
             ok = true;
         }
-        if (resultado < 0) {
-            showAlerta(AlertType.INFORMATION, "SALDO NEGATIVO", "DEBES INTRODUCIR UN SALDO POSITIVO");
-
-        }
 
         if (ok) {
             mostrarDatosCuenta();
@@ -320,6 +327,40 @@ public class PrimaryController implements Initializable {
 
     @FXML
     private void retirarCantidad(ActionEvent event) {
+
+        double cantidad = Double.parseDouble(cantidadRetirada.getValue().toString());
+
+        boolean ok = true;
+
+        if (cantidad < 0) {
+            showAlerta(AlertType.WARNING, "CANTIDAD NEGATIVA", "AVISO: la cantidad es negativa: " + cantidad);
+            ok = false;
+        }
+
+        if (cuenta.getSaldo() - cantidad < -50) {
+            showAlerta(AlertType.WARNING, "SALDO", "AVISO: El saldo no puede ser menor a 50: ");
+            ok = false;
+        }
+
+        if (ok) {
+            cuenta.sacar(cantidad);
+            mostrarDatosCuenta();
+            setHistorialOperaciones(cantidad, 2);
+
+            if (checkBoxDonacion.isSelected()) {
+                double donacion = calcularDonacion(cantidad);
+                if (totalDonacion + donacion <= 100) {
+                    totalDonacion += donacion;
+                    donacionProg += 0.1;
+                    progressDonaciones.setProgress(donacionProg);
+                    
+                }else{
+                    showAlerta(AlertType.WARNING, "DONACION", "AVISO: No se puede donar mas de 100€: ");
+                }
+
+            }
+
+        }
 
     }
 
@@ -335,22 +376,27 @@ public class PrimaryController implements Initializable {
 
             periodoRecibo = getPeriodicidad();
 
-            try {
-                String domiciliar = cuenta.domiciliar(cifEmpresa, nombreEmpresa, cantidad, conceptoRecibo, periodoRecibo);
-                if (!domiciliar.contains("creado")) {
-                    showAlerta(AlertType.INFORMATION, "FALLO RECIBO", domiciliar);
+            if (cifEmpresa.matches("^[0-9]{8}[a-zA-Z]{1}$")) {
+                try {
+                    String domiciliar = cuenta.domiciliar(cifEmpresa, nombreEmpresa, cantidad, conceptoRecibo, periodoRecibo);
+                    if (!domiciliar.contains("creado")) {
+                        showAlerta(AlertType.INFORMATION, "FALLO RECIBO", domiciliar);
 
+                    }
+                    observableRecibos.setAll(cuenta.getAllRecibos());
+//                    updateViewRecibos();
+                } catch (Exception e) {
+                    showAlerta(AlertType.INFORMATION, "FALLO RECIBO", "Periodicidad Nula");
                 }
-                recibos.addAll(cuenta.getAllRecibos());
-                updateViewRecibos();
-            } catch (Exception e) {
-                showAlerta(AlertType.INFORMATION, "FALLO RECIBO", "Periodicidad Nula");
+
+            } else {
+                showAlerta(AlertType.WARNING, "FALLO CIF", "El CIF no encaja con el formato");
             }
 
         } catch (Exception e) {
             showAlerta(AlertType.INFORMATION, "FALLO RECIBO", "Hay Valores Nulos");
         }
-        periodicidad.getSelectedToggle().setSelected(false);
+        
     }
 
 }
