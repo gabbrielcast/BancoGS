@@ -63,7 +63,7 @@
       </Pane>
       <Pane layoutX="316.0" prefHeight="660.0" prefWidth="584.0">
          <children>
-            <TabPane prefHeight="660.0" prefWidth="584.0" style="-fx-background-color: #f0f0f0;" stylesheets="@styles.css" tabClosingPolicy="UNAVAILABLE">
+            <TabPane prefHeight="660.0" prefWidth="584.0" style="-fx-background-color: #c2c2c2;" stylesheets="@styles.css" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab text="OPERACION">
                   <content>
