@@ -1,5 +1,7 @@
 package ClasesBanco;
 
+import java.util.Objects;
+
 public class Persona {
 
   //ATRIBUTOS
@@ -54,6 +56,34 @@ public class Persona {
 
   @Override
   public String toString() {
-    return String.format("%s (%s)", nombre, nif);
+    return String.format("%s", nombre.toUpperCase());
   }
+
+  
+  // CON ESTOS MÉTODOS JAVA PUEDE COMPARAR DOS OBJETOS Y SI TIENEN EL MISMO NIF LOS CONSIDERARÁ IGUALES
+  // ESTOS MÉTODOS LOS UTILIZA POR EJEMPLO AL AÑADIR UNA PERSONA EN UN SET<PERSONA> Y ASI EVITAR DUPLICADOS
+  
+  @Override
+  public int hashCode() {
+    int hash = 5;
+    hash = 43 * hash + Objects.hashCode(this.nif);
+    return hash;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    final Persona other = (Persona) obj;
+    return Objects.equals(this.nif, other.nif);
+  }
+  
+
 }

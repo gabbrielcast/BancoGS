@@ -6,7 +6,6 @@ import ClasesBanco.Persona;
 import ClasesBanco.Recibo;
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
@@ -23,6 +22,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
@@ -31,23 +31,24 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.paint.Paint;
 
 public class PrimaryController implements Initializable {
 
-    private Set<Persona> personas = new HashSet<>();
+    
     private Alert alerta;
     private ObservableList<Persona> listaPersonas;
     private ObservableList<MotivoIngreso> listaMotivoIngreso;
     private ObservableList<Double> opcionesDinero;
     private ObservableList<Recibo> observableRecibos;
     private Set<Recibo> recibos;
-    CuentaBancaria cuenta;
+    private CuentaBancaria cuenta;
+    
     private static int contador = 0;
     private static double progreso = 0;
     private static double donacionProg = 0;
-    private static int totalDonacion = 0;
+    private static double totalDonacion = 0;
     private LocalTime hora;
 
     @FXML
@@ -65,13 +66,9 @@ public class PrimaryController implements Initializable {
     @FXML
     private TextField dniPerAutorizar;
     @FXML
-    private ProgressBar progressDonaciones;
+    private ProgressBar progressDonaciones;    
     @FXML
-    private Spinner<Double> cantidadIngreso;
-    @FXML
-    private ChoiceBox<String> ChoiceMotivoIngreso;
-    @FXML
-    private Spinner<Double> cantidadRetirada;
+    private ChoiceBox<String> ChoiceMotivoOperacion;   
     @FXML
     private CheckBox checkBoxDonacion;
     @FXML
@@ -94,27 +91,33 @@ public class PrimaryController implements Initializable {
     private TextField concepto;
     @FXML
     private ListView<Recibo> historialRecibos;
+    @FXML
+    private Spinner<Double> spinnerOperacion;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cargaDatosIniciales();
-        autorizadosInciales();
         mostrarDatosCuenta();
         updateViewRecibos();
 
     }
 
     private void mostrarDatosCuenta() {
+        
+        double saldo=cuenta.getSaldo();
+        
         ncuentaField.setText(cuenta.getNumCuenta() + " ");
         titularField.setText(cuenta.getTitular().toString());
-        saldoField.setText(cuenta.getSaldoFormateado());
-
-    }
-
-    private void autorizadosInciales() {
-
-        listaPersonas = FXCollections.observableArrayList(personas);
-        viewAutorizados.setItems(listaPersonas);
+        
+        
+        if (saldo<0) {
+            saldoField.setTextFill(Paint.valueOf("#ff2929"));
+            
+        }else{
+            saldoField.setTextFill(Paint.valueOf("#1fde18"));
+        }
+        
+        saldoField.setText(cuenta.getSaldoFormateado() + "€");
 
     }
 
@@ -125,40 +128,29 @@ public class PrimaryController implements Initializable {
         alerta.setContentText(contenido);
 
         Optional<ButtonType> result = alerta.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            return true;
-        } else {
-            return false;
-        }
+
+        return result.get() == ButtonType.OK;
 
     }
 
-    private Persona getPersonaSeleccionda() {
+    private Persona getPersonaSeleccionada() {
         int posicionSeleccionado = viewAutorizados.getSelectionModel().getSelectedIndex();
 
-        //ACCEDEMOS A LA OBSERVABLE ARRAYLIST PARA OBTENER LA PERSONA SELECCIONADA
         Persona personaSeleccionada = listaPersonas.get(posicionSeleccionado);
 
         return personaSeleccionada;
-    }
-
-    private void actualizarAutorizados() {
-        listaPersonas = FXCollections.observableArrayList(personas);
-        viewAutorizados.setItems(listaPersonas);
-
     }
 
     private void cargaDatosIniciales() {
 
         //Titulares de cuentas y personas autorizadas para pruebas
         Persona p5 = new Persona("55555555R", "daniel cano");
-
         Persona p7 = new Persona("44444444M", "gabriel castillo");
-
         Persona p9 = new Persona("96666666Z", "wendy aguilar");
+        Persona p8 = new Persona("45103672G", "Gabriel Sajeel");
 
         //cuentas bancarias
-        cuenta = new CuentaBancaria(123456789, p7);
+        cuenta = new CuentaBancaria(123456789, p8);
         recibos = new HashSet<>();
 
         //autorizaciones
@@ -174,11 +166,8 @@ public class PrimaryController implements Initializable {
         p5.setNombre(p5.getNombre().toUpperCase());
         p9.setNombre(p9.getNombre().toUpperCase());
 
-        personas.add(p9);
-        personas.add(p5);
-        personas.add(p7);
-
-        actualizarAutorizados();
+        listaPersonas = FXCollections.observableArrayList(p9, p5, p7);
+        viewAutorizados.setItems(listaPersonas);
 
         //ingresos
         cuenta.ingresar(100);
@@ -189,24 +178,23 @@ public class PrimaryController implements Initializable {
         //domiciliacion recibos en cuentas
         cuenta.domiciliar("24589652F", "BBVA", 120.0, "LUZ", "Mensual");
 
-        recibos.addAll(cuenta.getAllRecibos());
+        recibos.addAll(cuenta.getListaRecibos());
 
         //CHOICEBOX
         listaMotivoIngreso = FXCollections.observableArrayList(MotivoIngreso.NOMINA, MotivoIngreso.DONACION, MotivoIngreso.REGALO, MotivoIngreso.OTROS);
         for (int i = 0; i < 4; i++) {
-            ChoiceMotivoIngreso.getItems().add(listaMotivoIngreso.get(i).name());
+            ChoiceMotivoOperacion.getItems().add(listaMotivoIngreso.get(i).name());
         }
-        ChoiceMotivoIngreso.setValue(MotivoIngreso.NOMINA.name());
+        ChoiceMotivoOperacion.setValue(MotivoIngreso.NOMINA.name());
 
         //Spinner
         opcionesDinero = FXCollections.observableArrayList(1.0, 5.0, 10.0, 20.0, 50.0, 100.0, 200.0, 500.0, 1000.0, 5000.0);
-        SpinnerValueFactory.ListSpinnerValueFactory<Double> ing = new SpinnerValueFactory.ListSpinnerValueFactory(opcionesDinero);
-        SpinnerValueFactory.ListSpinnerValueFactory<Double> ret = new SpinnerValueFactory.ListSpinnerValueFactory(opcionesDinero);
+        SpinnerValueFactory.ListSpinnerValueFactory<Double> ing = new SpinnerValueFactory.ListSpinnerValueFactory(opcionesDinero);       
         SpinnerValueFactory.ListSpinnerValueFactory<Double> importeRecibo = new SpinnerValueFactory.ListSpinnerValueFactory(opcionesDinero);
-        cantidadIngreso.setValueFactory(ing);
-        cantidadRetirada.setValueFactory(ret);
-        importe.setValueFactory(importeRecibo);
+        spinnerOperacion.setValueFactory(ing);
         
+        importe.setValueFactory(importeRecibo);
+
         //selected
         periodicidad.selectToggle(pAnual);
 
@@ -215,11 +203,12 @@ public class PrimaryController implements Initializable {
     private void setHistorialOperaciones(double cantidad, int op) {
         hora = LocalTime.now();
         DateTimeFormatter horaEstandar = DateTimeFormatter.ofPattern("H:m");
-        String operacion = "";
+        String operacion;
+        String motivo=ChoiceMotivoOperacion.getValue();
         if (op == 1) {
-            operacion = "INGRESO <> " + cantidad + "€ a las " + hora.format(horaEstandar) + "\n";
-        } else {
-            operacion = "RETIRO <> " + cantidad + "€ a las " + hora.format(horaEstandar) + "\n";
+            operacion = "INGRESO <" + motivo +  "> " + cantidad + "€ a las " + hora.format(horaEstandar) + "h \n";
+        } else {           
+            operacion = "RETIRO <" + motivo + "> "+ cantidad + "€ a las " + hora.format(horaEstandar) + "h \n";
         }
         historialOperaciones.appendText(operacion);
 
@@ -233,20 +222,20 @@ public class PrimaryController implements Initializable {
     }
 
     private String getPeriodicidad() {
-        String periodicidad = "Mensual";
+        String valor = "Anual";
 
-        if (pAnual.isSelected()) {
-            periodicidad = "Anual";
+        if (pMensual.isSelected()) {
+            valor = "Mensual";
         }
         if (pTrimestral.isSelected()) {
-            periodicidad = "Trimestral";
+            valor = "Trimestral";
         }
-        return periodicidad;
+        return valor;
     }
 
     private double calcularDonacion(double cantidad) {
         final int PORCENTAJEDONACION = 5;
-        double resultado = cantidad * PORCENTAJEDONACION / 100;
+        double resultado = (double) cantidad * PORCENTAJEDONACION / 100;
         return resultado;
     }
 
@@ -255,24 +244,34 @@ public class PrimaryController implements Initializable {
         String nombre = nPersonaAutorizar.getText();
         String dni = dniPerAutorizar.getText();
         Persona p;
+        boolean ok = true;
 
-        if (contador < 6) {
+        if (nombre.isBlank()) {
+            ok = false;
+        }
+
+        if (!dni.matches("^[0-9]{8}[a-zA-Z]{1}$")) {
+            ok = false;
+        }
+
+        if (contador < 6 && ok) {
             p = new Persona(dni, nombre);
 
             //OBTENER LA PERSONA SELECCIONADA
-            if (!cuenta.existeAutorizado(p)) {
+            if (!listaPersonas.contains(p)) {
 
                 p.setNombre(p.getNombre().toUpperCase());
-                cuenta.autorizar(p);
-                listaPersonas.add(p);
 
-                
+                listaPersonas.add(p);
 
                 progreso += 0.17;
                 progressAutorizados.setProgress(progreso);
                 contador++;
 
             }
+        } else {
+            showAlerta(AlertType.ERROR, "ERROR DATOS", "El DNI o el Nombre son incorrectos");
+
         }
 
     }
@@ -281,17 +280,15 @@ public class PrimaryController implements Initializable {
     private void desautorizarPersona() {
 
         //OBTENER LA PERSONA SELECCIONADA
-        Persona personaSeleccionada = getPersonaSeleccionda();
+        Persona desautorizado = getPersonaSeleccionada();
         if (progressAutorizados.getProgress() >= 0) {
-            if (cuenta.existeAutorizado(personaSeleccionada) && showAlerta(AlertType.CONFIRMATION, "DESAUTORIZAAR",
-                    "Estas seguro de eliminar a " + personaSeleccionada.getNombre() + "?")) {
+            if (listaPersonas.contains(desautorizado) && showAlerta(AlertType.CONFIRMATION, "DESAUTORIZAR",
+                    "Estas seguro de eliminar a " + desautorizado.getNombre() + "?")) {
 
-                cuenta.quitarAutorizado(personaSeleccionada);
-                listaPersonas.remove(personaSeleccionada);
-                
+                listaPersonas.remove(desautorizado);
 
+                //progressbar
                 progreso -= 0.17;
-
                 progressAutorizados.setProgress(progreso);
                 contador--;
             }
@@ -306,7 +303,7 @@ public class PrimaryController implements Initializable {
     @FXML
     private void ingresarCantidad() {
 
-        double cantidad = Double.parseDouble(cantidadIngreso.getValue().toString());
+        double cantidad = Double.parseDouble(spinnerOperacion.getValue().toString());
         int resultado = cuenta.ingresar(cantidad);
         boolean ok = false;
 
@@ -320,6 +317,7 @@ public class PrimaryController implements Initializable {
 
         if (ok) {
             mostrarDatosCuenta();
+            //1 es para ingresar
             setHistorialOperaciones(cantidad, 1);
         }
 
@@ -328,14 +326,8 @@ public class PrimaryController implements Initializable {
     @FXML
     private void retirarCantidad(ActionEvent event) {
 
-        double cantidad = Double.parseDouble(cantidadRetirada.getValue().toString());
-
+        double cantidad = Double.parseDouble(spinnerOperacion.getValue().toString());
         boolean ok = true;
-
-        if (cantidad < 0) {
-            showAlerta(AlertType.WARNING, "CANTIDAD NEGATIVA", "AVISO: la cantidad es negativa: " + cantidad);
-            ok = false;
-        }
 
         if (cuenta.getSaldo() - cantidad < -50) {
             showAlerta(AlertType.WARNING, "SALDO", "AVISO: El saldo no puede ser menor a 50: ");
@@ -348,16 +340,22 @@ public class PrimaryController implements Initializable {
             setHistorialOperaciones(cantidad, 2);
 
             if (checkBoxDonacion.isSelected()) {
+
                 double donacion = calcularDonacion(cantidad);
                 if (totalDonacion + donacion <= 100) {
                     totalDonacion += donacion;
-                    donacionProg += 0.1;
+                    donacionProg = (double) totalDonacion / 100;
+
                     progressDonaciones.setProgress(donacionProg);
-                    
-                }else{
-                    showAlerta(AlertType.WARNING, "DONACION", "AVISO: No se puede donar mas de 100€: ");
+
+                } else {
+                    showAlerta(AlertType.WARNING, "DONACION", "AVISO: No se puede donar mas de 100€ en total, has donado " + totalDonacion + "€");
                 }
 
+            }
+            
+            if (cuenta.getSaldo()<0) {
+                showAlerta(AlertType.WARNING, "SALDO NEGATIVO", "Tu saldo actual es: " + cuenta.getSaldoFormateado() + "€");
             }
 
         }
@@ -368,35 +366,57 @@ public class PrimaryController implements Initializable {
     private void insertarRescibo() {
         String cifEmpresa, nombreEmpresa, conceptoRecibo, periodoRecibo;
         double cantidad;
-        try {
-            cifEmpresa = cif.getText();
-            nombreEmpresa = nEmpresa.getText();
-            conceptoRecibo = concepto.getText();
-            cantidad = importe.getValue();
+        boolean ok = true;
+        boolean cifOK = true;
 
+        cifEmpresa = cif.getText();
+        nombreEmpresa = nEmpresa.getText();
+        conceptoRecibo = concepto.getText();
+        cantidad = importe.getValue();
+
+        if (nombreEmpresa.isBlank() || conceptoRecibo.isBlank()) {
+            ok = false;
+        }
+
+        if ((!cifEmpresa.matches("^[0-9]{8}[a-zA-Z]{1}$") || cifEmpresa.isBlank()) && ok) {
+            cifOK = false;
+            showAlerta(AlertType.WARNING, "FALLO CIF", "El CIF no encaja con el formato");
+        }
+
+        if (ok && cifOK) {
             periodoRecibo = getPeriodicidad();
 
-            if (cifEmpresa.matches("^[0-9]{8}[a-zA-Z]{1}$")) {
-                try {
-                    String domiciliar = cuenta.domiciliar(cifEmpresa, nombreEmpresa, cantidad, conceptoRecibo, periodoRecibo);
-                    if (!domiciliar.contains("creado")) {
-                        showAlerta(AlertType.INFORMATION, "FALLO RECIBO", domiciliar);
+            cuenta.domiciliar(cifEmpresa, nombreEmpresa, cantidad, conceptoRecibo, periodoRecibo);
 
-                    }
-                    observableRecibos.setAll(cuenta.getAllRecibos());
-//                    updateViewRecibos();
-                } catch (Exception e) {
-                    showAlerta(AlertType.INFORMATION, "FALLO RECIBO", "Periodicidad Nula");
-                }
+            observableRecibos.setAll(cuenta.getListaRecibos());
 
-            } else {
-                showAlerta(AlertType.WARNING, "FALLO CIF", "El CIF no encaja con el formato");
-            }
-
-        } catch (Exception e) {
-            showAlerta(AlertType.INFORMATION, "FALLO RECIBO", "Hay Valores Nulos");
         }
-        
+
+        if (ok == false) {
+            showAlerta(AlertType.INFORMATION, "FALLO RECIBO", "Hay Valores Nulos en empresa y concepto");
+        }
+
+    }
+
+    @FXML
+    private void filtrarRecibos() {
+
+        ChoiceDialog<String> choice = new ChoiceDialog<>("Anual", "Mensual", "Trimestral");
+        choice.setTitle("FILTRAR");
+        choice.setHeaderText("Filtrar por periodicidad");
+        choice.setContentText("Elije una opción");
+
+        Optional<String> result = choice.showAndWait();
+
+        if (result.isPresent()) {
+            Set<Recibo> recibosBuscados = cuenta.listaRecibosDomicialidos(result.get());
+            if (!recibosBuscados.isEmpty()) {
+                observableRecibos.setAll(recibosBuscados);
+            } else {
+                showAlerta(AlertType.INFORMATION, "Filtro busqueda", "No se ha encontrado ningun recibo");
+            }
+        }
+
     }
 
 }

@@ -20,6 +20,14 @@ and open the template in the editor.
     -fx-cursor:hand;
 }
 
+image_view:hover{
+    -fx-border-color:#ed8013;
+    -fx-border-width:1px;
+    -fx-border-style: solid;
+
+    -fx-cursor:hand;
+}
+
 .button{
     -fx-background-color: #232626;
     -fx-border-radius:50px;
@@ -41,3 +49,34 @@ and open the template in the editor.
     -fx-background-color:#107d17;
     -fx-cursor:hand;
 }
+
+.field{
+    -fx-border-color:#232626;
+    -fx-border-width:1px;
+    -fx-border-style: solid;
+    -fx-background-color:#379bcc;
+    -fx-text-fill:white;
+    
+}
+
+.vista{
+    
+    -fx-border-color:#232626;
+    -fx-border-width:1px;
+    -fx-border-style: solid;
+    -fx-color:#854b00;
+}
+
+
+.info{
+    -fx-border-color:#ed8013;
+    -fx-border-width:1px;
+    -fx-border-style: solid;
+}
+
+.progreso{
+    -fx-border-color:#1472a8;
+    -fx-border-width:2px;
+    -fx-border-style: solid;
+}
+

@@ -7,9 +7,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+
 
 public class SecondaryController implements Initializable {
 
@@ -17,9 +18,7 @@ public class SecondaryController implements Initializable {
     private Label fechaInicio;
     private LocalDate hoy;
     @FXML
-    private Button buttonAcceder;
-    @FXML
-    private Pane paginaInicio;
+    private ImageView logoHover;
 
     @FXML
     private void switchToPrimary() throws IOException {
@@ -31,7 +30,19 @@ public class SecondaryController implements Initializable {
         hoy= LocalDate.now();
         DateTimeFormatter fechaEstandar = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         fechaInicio.setText(hoy.format(fechaEstandar));
+           
         
-        paginaInicio.getStylesheets().add("styles.css");
+    }
+    
+
+    @FXML
+    private void cambiarImagen() {
+        
+        logoHover.setOpacity(1);
+    }
+
+    @FXML
+    private void volverOriginal() {
+        logoHover.setOpacity(0);
     }
 }

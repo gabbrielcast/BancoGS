@@ -63,16 +63,14 @@ public class Recibo {
         this.concepto = concepto;
     }
 
-    
-
     public void setPeriodicidad(String periodicidad) {
         this.periodicidad = periodicidad;
     }
-    
-    @Override
-    public String toString() {
-        return cif.toUpperCase() + " - " + nombreEmpresa.toUpperCase() + " - " + getImporteFormateado() + " - " + concepto.toUpperCase() + " - " + periodicidad.toUpperCase();
-    }
+
+  @Override
+  public String toString() {
+    return  nombreEmpresa + " " + importe + " " + periodicidad;
+  }
     
     
    

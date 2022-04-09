@@ -7,12 +7,6 @@ import java.util.Set;
 
 public class CuentaBancaria {
 
-    //COLORES POR CONSOLA
-    private final static String GREEN = "\033[32m";
-    private final static String RED = "\033[31m";
-    private final static String RESET = "\u001B[0m";
-    private final static String PURPLE = "\033[35m";
-
     //VARIABLES DE CONTROL
     private final static int CANTIDAD_MAX = 3000;
     private final static String MENSUAL = "mensual";
@@ -21,11 +15,11 @@ public class CuentaBancaria {
 
     //ATRIBUTOS
     private final long numCuenta;
-    private Persona titular;
+    private final Persona titular;
     private double saldo;
    
-    private Set<Persona> autorizados = new HashSet<>(); //colección para recoger los autorizados
-    private List<Recibo> listaRecibos = new ArrayList<>(); //coleccion para recoger los recibos
+    private final Set<Persona> autorizados = new HashSet<>(); //colección para recoger los autorizados
+    private final List<Recibo> listaRecibos = new ArrayList<>(); //coleccion para recoger los recibos
 
     //CONSTRUCTOR
     public CuentaBancaria(long numeroCuenta, Persona titular) {
@@ -52,28 +46,19 @@ public class CuentaBancaria {
     public double getSaldo() {
         return saldo;
     }
+
+  public Set<Persona> getAutorizados() {
+    return autorizados;
+  }
+
+  public List<Recibo> getListaRecibos() {
+    return listaRecibos;
+  }
     
-    public Boolean existeAutorizado(Persona p){
-        
-        for(Persona per:autorizados){
-            if (per.igual(p)) {
-                return true;
-            }
-        }
-        return false;
-    }
     
-    public Boolean quitarAutorizado(Persona p){
-        if (autorizados.contains(p)) {
-            autorizados.remove(p);
-            return true;
-        }
-        
-        return false;
-    }
 
     //SETTERS
-    //NO HAY METODOS SET PORQUE NO SE DEBE PERMITIR MODIFICAR DATOS DESPUES DE CREAR EL OBJETO
+   
     
     
     //MÉTODOS
@@ -90,7 +75,7 @@ public class CuentaBancaria {
 
     //Método ingresar
     public int ingresar(double cantidad) {
-        
+
         final int CANTIDAD_CORRECTA = 0;
         final int CANTIDAD_MAX_SUPERADA = 1;
         final int CANTIDAD_INCORRECTA = -1;
@@ -123,29 +108,19 @@ public class CuentaBancaria {
         String informacionCuenta = getNumCuenta() + " - " + getTitular();
 
         if (saldo >= 0) {
-
             if (verAutorizados().isEmpty()) {
-                informacionCuenta += "\nSaldo actual: " + GREEN + getSaldoFormateado() + "€" + RESET;
-
+                informacionCuenta += "\nSaldo actual: " +  getSaldoFormateado() + "€" ;
             } else {
-
-                informacionCuenta += "\n" + verAutorizados() + "\n" + "Saldo actual: "
-                        + GREEN + getSaldoFormateado() + "€" + RESET;
-
+                informacionCuenta += "\n" + verAutorizados() + "\n" + "Saldo actual: " + getSaldoFormateado() + "€" ;
             }
         }
 
         if (saldo < 0) {
-
             if (verAutorizados().isEmpty()) {
-
-                informacionCuenta += "\nSaldo actual: " + RED + getSaldoFormateado() + "€" + RESET;
-
+                informacionCuenta += "\nSaldo actual: "  + getSaldoFormateado() + "€" ;
             } else {
-
                 informacionCuenta += "\n" + verAutorizados() + "\n" + "Saldo actual: "
-                        + RED + getSaldoFormateado() + "€" + RESET;
-
+                        +  getSaldoFormateado() + "€" ;
             }
         }
 
@@ -155,42 +130,42 @@ public class CuentaBancaria {
     //Método domiciliar recibos
     public String domiciliar(String cif, String nombreEmpresa, double importe, String concepto, String periodicidad) {
 
-        String reciboDomiciliado = PURPLE + "CIF: " + RESET + cif + PURPLE + "\nNombre de Empresa: " + RESET + nombreEmpresa
-                + PURPLE + "\nImporte: " + RESET + String.format("%1$,.2f", importe) + "€" + PURPLE + "\nConcepto: "
-                + RESET + concepto + PURPLE + "\nPeriodicidad: " + RESET + periodicidad;
+        String reciboDomiciliado =  "CIF: "  + cif + "\nNombre de Empresa: "  + nombreEmpresa
+                + "\nImporte: "  + String.format("%1$,.2f", importe) + "€" + "\nConcepto: "
+                 + concepto + "\nPeriodicidad: "  + periodicidad;
 
         boolean reciboOK = true;
-        String infoRecibo ="No se ha podido domiciliar el recibo";
+        String infoRecibo =  "NO se ha podido domiciliar el recibo" ;
 
         if (cif.isEmpty()) {
-            infoRecibo += "\nEl" + " CIF " + "no se ha introducido correctamente\nVuelve a intentarlo";
+            infoRecibo += "\nEl"  + " CIF "  + "NO se ha introducido \n";
             reciboOK = false;
         }
 
         if (nombreEmpresa.isEmpty()) {
-            infoRecibo += "\nEl" + " NOMBRE DE LA EMPRESA " + "no se ha introducido correctamente\nVuelve a intentarlo";
+            infoRecibo += "\nEl"  + " NOMBRE DE LA EMPRESA "  + "NO se ha introducido \n";
             reciboOK = false;
         }
 
         if (importe <= 0) {
-            infoRecibo += "\nEl" + " IMPORTE " + "no se ha introducido correctamente\nVuelve a intentarlo";
+            infoRecibo += "\nEl"  + " IMPORTE "  + "NO se ha introducido \n";
             reciboOK = false;
         }
 
         if (concepto.isEmpty()) {
-            infoRecibo += "\nEl"  + " CONCEPTO " + "no se ha introducido correctamente\nVuelve a intentarlo";
+            infoRecibo += "\nEl"  + " CONCEPTO "  + "NO se ha introducido \n";
             reciboOK = false;
         }
 
         if (!(periodicidad.equalsIgnoreCase(MENSUAL) || periodicidad.equalsIgnoreCase(TRIMESTRAL) || periodicidad.equalsIgnoreCase(ANUAL))) {
-            infoRecibo += "\nLa" + " PERIODICIDAD " + "no se ha introducido correctamente\nVuelve a intentarlo";
+            infoRecibo += "\nLa"  + " PERIODICIDAD "  + "NO se ha introducido \n";
             reciboOK = false;
         }
 
         if (reciboOK) {
             Recibo reciboDomiciliadoOK = new Recibo(cif, nombreEmpresa, importe, concepto, periodicidad);
             listaRecibos.add(reciboDomiciliadoOK);
-            infoRecibo = "\nEl recibo se ha creado correctamente" +  "\n" + reciboDomiciliado;
+            infoRecibo =  "\nEl recibo se ha creado correctamente"  + "\n" + reciboDomiciliado;
         }
 
         return infoRecibo;
@@ -226,15 +201,5 @@ public class CuentaBancaria {
         }
 
         return listaRecibosEncontrados;
-    }
-    
-    
-    public Set<Recibo> getAllRecibos(){
-        Set<Recibo> allRecibos= new HashSet<>();
-        
-        for(Recibo bill: listaRecibos){
-            allRecibos.add(bill);
-        }
-        return allRecibos;
     }
 }
