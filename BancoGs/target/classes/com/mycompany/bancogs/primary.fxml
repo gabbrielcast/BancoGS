@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="660.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bancogs.PrimaryController">
+<Pane prefHeight="660.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bancogs.PrimaryController">
    <children>
       <Pane prefHeight="660.0" prefWidth="316.0" style="-fx-background-color: #1472a8;">
          <children>
@@ -69,7 +69,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Label alignment="CENTER" layoutX="160.0" layoutY="283.0" text="DONACIONES">
+                              <Label alignment="CENTER" layoutX="141.0" layoutY="283.0" text="DONACIONES">
                                  <font>
                                     <Font size="16.0" />
                                  </font></Label>
@@ -81,8 +81,8 @@
                                  <font>
                                     <Font name="Berlin Sans FB" size="15.0" />
                                  </font></Button>
-                              <ProgressBar fx:id="progressDonaciones" layoutX="271.0" layoutY="284.0" prefHeight="18.0" prefWidth="149.0" progress="0.0" styleClass="progreso" stylesheets="@styles.css" />
-                              <Spinner fx:id="spinnerOperacion" layoutX="218.0" layoutY="82.0" />
+                              <ProgressBar fx:id="progressDonaciones" layoutX="252.0" layoutY="284.0" prefHeight="18.0" prefWidth="149.0" progress="0.0" styleClass="progreso" stylesheets="@styles.css" />
+                              <Spinner fx:id="spinnerOperacion" editable="true" layoutX="218.0" layoutY="82.0" />
                               <ChoiceBox fx:id="ChoiceMotivoOperacion" layoutX="218.0" layoutY="119.0" prefHeight="25.0" prefWidth="149.0" />
                               <Label alignment="CENTER" layoutX="249.0" layoutY="55.0" stylesheets="@styles.css" text="CANTIDAD">
                                  <font>
@@ -96,6 +96,7 @@
                                     <Font name="Times New Roman Bold" size="16.0" />
                                  </font>
                               </Label>
+                              <Label fx:id="labelDonacion" layoutX="410.0" layoutY="280.0" prefHeight="24.0" prefWidth="32.0" />
                            </children>
                         </AnchorPane>
                   </content>
@@ -142,7 +143,7 @@
                                     <Font name="Berlin Sans FB" size="17.0" />
                                  </font>
                               </Button>
-                              <Spinner fx:id="importe" layoutX="390.0" layoutY="72.0" />
+                              <Spinner fx:id="importe" editable="true" layoutX="390.0" layoutY="72.0" />
                               <RadioButton fx:id="pTrimestral" layoutX="390.0" layoutY="189.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="91.0" text="trimestral">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="periodicidad" />
@@ -192,6 +193,7 @@
                               </Label>
                               <TextField fx:id="nPersonaAutorizar" alignment="CENTER" layoutX="194.0" layoutY="63.0" promptText="NOMBRE Y APELLIDO" styleClass="field" stylesheets="@styles.css" />
                               <TextField fx:id="dniPerAutorizar" alignment="CENTER" layoutX="194.0" layoutY="100.0" promptText="00000000F" styleClass="field" stylesheets="@styles.css" />
+                              <Label fx:id="labelAutorizados" layoutX="378.0" layoutY="515.0" prefHeight="20.0" prefWidth="37.0" />
                            </children>
                         </AnchorPane>
                      </content>
