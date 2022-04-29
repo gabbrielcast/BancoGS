@@ -1,0 +1,14 @@
+<!ELEMENT discografica (cancion*)>
+<!ELEMENT cancion (titulo,compositores,disco,sello,artistas)>
+<!ELEMENT titulo (#PCDATA)>
+<!ELEMENT compositores (compositor*)>
+<!ELEMENT compositor (nombre,apellidos?)>
+<!ELEMENT apellidos (#PCDATA)>
+<!ELEMENT disco (nombre)>
+<!ELEMENT sello (nombre)>
+<!ELEMENT artistas (artista*)>
+<!ELEMENT artista (nombre)>
+<!ELEMENT nombre (#PCDATA)>
+
+<!ATTLIST cancion duracion CDATA #IMPLIED
+          anno CDATA  #REQUIRED>
